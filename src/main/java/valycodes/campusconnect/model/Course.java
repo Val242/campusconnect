@@ -1,4 +1,4 @@
 package valycodes.campusconnect.model;
 
-public class CourseRepository {
+public class Course {
 }
