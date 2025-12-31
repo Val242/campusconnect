@@ -1,38 +1,59 @@
 package valycodes.campusconnect.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(
-        name = "_user",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "email")
-        }
+        name = "_user",  // original table name
+        uniqueConstraints = @UniqueConstraint(columnNames = "email")
 )
-@Builder
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+  //Owning side
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "studentProfile") // FK column in User table
+    private StudentProfile studentProfile;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "instructorProfile") // FK column in User table
+    private InstructorProfile instructorProfile;
+
+    // ───────────────────────────────────────
+    // Basic fields
+    // ───────────────────────────────────────
     private String firstname;
     private String lastname;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    public User(Integer id, String firstname, String lastname, String email, String password, Role role) {
+    // ───────────────────────────────────────
+    // Constructors
+    // ───────────────────────────────────────
+    public User() {
+    }
+
+    public User(Integer id, StudentProfile studentProfile,InstructorProfile instructorProfile, String firstname, String lastname,
+                String email, String password, Role role) {
         this.id = id;
+        this.studentProfile = studentProfile;
+        this.instructorProfile = instructorProfile;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
@@ -40,26 +61,77 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    public User() {
-    }
-
     public static UserBuilder builder() {
         return new UserBuilder();
     }
 
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
+    }
+
+    public void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    // ───────────────────────────────────────
+    // Spring Security UserDetails
+    // ───────────────────────────────────────
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
-    public @Nullable String getPassword() {
-        return password;
-    }
-
-    @Override
     public String getUsername() {
-        //Returns a login identifier
         return email;
     }
 
@@ -83,8 +155,38 @@ public class User implements UserDetails {
         return true;
     }
 
+    // ───────────────────────────────────────
+    // equals, hashCode, toString
+    // ───────────────────────────────────────
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", studentProfile=" + studentProfile +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                '}';
+    }
+
     public static class UserBuilder {
         private Integer id;
+        private StudentProfile studentProfile;
+        InstructorProfile instructorProfile;
         private String firstname;
         private String lastname;
         private String email;
@@ -96,6 +198,11 @@ public class User implements UserDetails {
 
         public UserBuilder id(Integer id) {
             this.id = id;
+            return this;
+        }
+
+        public UserBuilder studentProfile(StudentProfile studentProfile) {
+            this.studentProfile = studentProfile;
             return this;
         }
 
@@ -125,11 +232,11 @@ public class User implements UserDetails {
         }
 
         public User build() {
-            return new User(this.id, this.firstname, this.lastname, this.email, this.password, this.role);
+            return new User(this.id, this.studentProfile, this.instructorProfile,this.firstname, this.lastname, this.email, this.password, this.role);
         }
 
         public String toString() {
-            return "User.UserBuilder(id=" + this.id + ", firstname=" + this.firstname + ", lastname=" + this.lastname + ", email=" + this.email + ", password=" + this.password + ", role=" + this.role + ")";
+            return "User.UserBuilder(id=" + this.id + ", studentProfile=" + this.studentProfile + ", instructor-profile="+ this.instructorProfile +", firstname=" + this.firstname + ", lastname=" + this.lastname + ", email=" + this.email + ", password=" + this.password + ", role=" + this.role + ")";
         }
     }
 }
