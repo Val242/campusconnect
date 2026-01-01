@@ -1,10 +1,12 @@
 package valycodes.campusconnect.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -20,7 +22,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-  //Owning side
+    //Owning side
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "studentProfile") // FK column in User table
     private StudentProfile studentProfile;
@@ -42,6 +44,8 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 
     // ───────────────────────────────────────
     // Constructors
@@ -50,7 +54,7 @@ public class User implements UserDetails {
     }
 
     public User(Integer id, StudentProfile studentProfile,InstructorProfile instructorProfile, String firstname, String lastname,
-                String email, String password, Role role) {
+                String email, String password, Role role,LocalDateTime createdAt) {
         this.id = id;
         this.studentProfile = studentProfile;
         this.instructorProfile = instructorProfile;
@@ -59,6 +63,7 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.createdAt = createdAt;
     }
 
     public static UserBuilder builder() {
@@ -183,6 +188,22 @@ public class User implements UserDetails {
                 '}';
     }
 
+    public InstructorProfile getInstructorProfile() {
+        return instructorProfile;
+    }
+
+    public void setInstructorProfile(InstructorProfile instructorProfile) {
+        this.instructorProfile = instructorProfile;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public static class UserBuilder {
         private Integer id;
         private StudentProfile studentProfile;
@@ -192,6 +213,7 @@ public class User implements UserDetails {
         private String email;
         private String password;
         private Role role;
+        private LocalDateTime createdAt;
 
         UserBuilder() {
         }
@@ -232,7 +254,7 @@ public class User implements UserDetails {
         }
 
         public User build() {
-            return new User(this.id, this.studentProfile, this.instructorProfile,this.firstname, this.lastname, this.email, this.password, this.role);
+            return new User(this.id, this.studentProfile, this.instructorProfile,this.firstname, this.lastname, this.email, this.password, this.role, this.createdAt);
         }
 
         public String toString() {
