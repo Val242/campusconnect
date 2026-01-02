@@ -23,11 +23,25 @@ public class User implements UserDetails {
     private Integer id;
 
     //Owning side
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "studentProfile") // FK column in User table
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(
+            name = "student_profile_id",
+            referencedColumnName = "id",
+            unique = true
+    )
     private StudentProfile studentProfile;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "instructorProfile") // FK column in User table
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(
+            name = "instructor_profile_id",
+            referencedColumnName = "id",
+            unique = true
+    )
     private InstructorProfile instructorProfile;
 
     // ───────────────────────────────────────

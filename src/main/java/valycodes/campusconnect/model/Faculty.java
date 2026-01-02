@@ -27,12 +27,14 @@ public class Faculty {
             length = 10
     )
     private String facultyAbbrev;
+    @OneToOne
+    @JoinColumn(
+            name = "dean_id",
+            unique = true
+    )
     private InstructorProfile dean;
     @OneToMany(
             fetch = FetchType.LAZY
-    )
-    @Column(
-            nullable = false
     )
     private List<Department> departments;
     @CreationTimestamp

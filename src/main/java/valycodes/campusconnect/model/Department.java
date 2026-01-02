@@ -34,6 +34,11 @@ public class Department {
     @OneToOne(
             optional = true
     )
+    @JoinColumn(
+            name = "head_instructor_id",
+            referencedColumnName = "id",
+            unique = true
+    )
     private InstructorProfile headOfDepartment;
     @ManyToOne(
             optional = false,//it enforces the NOT NULL constraint
@@ -42,9 +47,6 @@ public class Department {
     private Faculty faculty;
     @OneToMany(
             fetch = FetchType.LAZY
-    )
-    @Column(
-            nullable = false
     )
     private List<Course> courses;
     @CreationTimestamp

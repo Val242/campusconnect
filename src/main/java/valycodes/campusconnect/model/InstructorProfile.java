@@ -6,7 +6,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Table
+import java.util.ArrayList;
+import java.util.List;
+
+@Table(name = "instructor_profiles")
 @Entity
 @Data
 @NoArgsConstructor
@@ -15,15 +18,18 @@ import lombok.NoArgsConstructor;
 public class InstructorProfile {
 
     @Id
+    @GeneratedValue
     private Integer id;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    private User user;
+
+    @OneToOne(mappedBy = "headOfDepartment")
+    private Department departmentHeaded;
 
     @Column(unique = true, nullable = false)
     private Integer employeeNumber;
+
+    @OneToMany(mappedBy = "instructor")
+    private List<Course> courses = new ArrayList<>();
 
     private String department;
     private String faculty;

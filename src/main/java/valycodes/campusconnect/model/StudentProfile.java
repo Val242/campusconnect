@@ -14,14 +14,10 @@ import lombok.NoArgsConstructor;
 @Builder
 public class StudentProfile {
     @Id
+    @GeneratedValue
     private Integer id;
 
-    @OneToOne(
-            mappedBy = "studentProfile"
-    )
-    @MapsId
-    @JoinColumn(name = "id")
-    private User user;
+
 
     @Column(unique = true, nullable = false)
     private Integer matriculationNumber;
