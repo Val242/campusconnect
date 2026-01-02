@@ -58,25 +58,29 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     // ───────────────────────────────────────
     // Constructors
     // ───────────────────────────────────────
-    public User() {
-    }
 
-    public User(Integer id, StudentProfile studentProfile,InstructorProfile instructorProfile, String firstname, String lastname,
-                String email, String password, Role role,LocalDateTime createdAt) {
+    public User(Integer id, StudentProfile studentProfile, InstructorProfile instructorProfile, String firstname, String lastname,
+                String email, String password, Role role, Gender gender, LocalDateTime createdAt) {
         this.id = id;
-        this.studentProfile = studentProfile;
-        this.instructorProfile = instructorProfile;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.studentProfile = studentProfile;
+        this.instructorProfile = instructorProfile;
         this.password = password;
         this.role = role;
+        this.gender = gender;
         this.createdAt = createdAt;
     }
 
@@ -220,16 +224,23 @@ public class User implements UserDetails {
 
     public static class UserBuilder {
         private Integer id;
-        private StudentProfile studentProfile;
-        InstructorProfile instructorProfile;
         private String firstname;
         private String lastname;
         private String email;
+        private StudentProfile studentProfile;
+        private InstructorProfile instructorProfile;
         private String password;
+        private Gender gender;
         private Role role;
+        @CreationTimestamp
         private LocalDateTime createdAt;
 
-        UserBuilder() {
+        UserBuilder(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public UserBuilder() {
+
         }
 
         public UserBuilder id(Integer id) {
@@ -262,13 +273,18 @@ public class User implements UserDetails {
             return this;
         }
 
+        public UserBuilder gender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
         public UserBuilder role(Role role) {
             this.role = role;
             return this;
         }
 
         public User build() {
-            return new User(this.id, this.studentProfile, this.instructorProfile,this.firstname, this.lastname, this.email, this.password, this.role, this.createdAt);
+            return new User(this.id, this.studentProfile, this.instructorProfile,this.firstname, this.lastname, this.email, this.password, this.role,this.gender , this.createdAt);
         }
 
         public String toString() {

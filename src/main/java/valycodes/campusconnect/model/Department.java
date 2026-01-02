@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Table(name = "department")
@@ -31,11 +32,9 @@ public class Department {
             length = 10
     )
     private String departmentAbbrev;
-    @OneToOne(
-            optional = true
-    )
+    @OneToOne()
     @JoinColumn(
-            name = "head_instructor_id",
+            name = "head_of_department_id",
             referencedColumnName = "id",
             unique = true
     )
@@ -49,6 +48,8 @@ public class Department {
             fetch = FetchType.LAZY
     )
     private List<Course> courses;
+    @OneToMany(mappedBy = "department")
+    private List<StudentProfile> students = new ArrayList<>();
     @CreationTimestamp
     private LocalDateTime createdAt;
 
