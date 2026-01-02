@@ -1,10 +1,12 @@
 package valycodes.campusconnect.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -20,12 +22,26 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-  //Owning side
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "studentProfile") // FK column in User table
+    //Owning side
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(
+            name = "student_profile_id",
+            referencedColumnName = "id",
+            unique = true
+    )
     private StudentProfile studentProfile;
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "instructorProfile") // FK column in User table
+    @OneToOne(
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    @JoinColumn(
+            name = "instructor_profile_id",
+            referencedColumnName = "id",
+            unique = true
+    )
     private InstructorProfile instructorProfile;
 
     // ───────────────────────────────────────
@@ -43,22 +59,29 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Gender gender;
+
+    @CreationTimestamp
+    private LocalDateTime createdAt;
+
     // ───────────────────────────────────────
     // Constructors
     // ───────────────────────────────────────
-    public User() {
-    }
 
-    public User(Integer id, StudentProfile studentProfile,InstructorProfile instructorProfile, String firstname, String lastname,
-                String email, String password, Role role) {
+    public User(Integer id, StudentProfile studentProfile, InstructorProfile instructorProfile, String firstname, String lastname,
+                String email, String password, Role role, Gender gender, LocalDateTime createdAt) {
         this.id = id;
-        this.studentProfile = studentProfile;
-        this.instructorProfile = instructorProfile;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.studentProfile = studentProfile;
+        this.instructorProfile = instructorProfile;
         this.password = password;
         this.role = role;
+        this.gender = gender;
+        this.createdAt = createdAt;
     }
 
     public static UserBuilder builder() {
@@ -183,17 +206,41 @@ public class User implements UserDetails {
                 '}';
     }
 
+    public InstructorProfile getInstructorProfile() {
+        return instructorProfile;
+    }
+
+    public void setInstructorProfile(InstructorProfile instructorProfile) {
+        this.instructorProfile = instructorProfile;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public static class UserBuilder {
         private Integer id;
-        private StudentProfile studentProfile;
-        InstructorProfile instructorProfile;
         private String firstname;
         private String lastname;
         private String email;
+        private StudentProfile studentProfile;
+        private InstructorProfile instructorProfile;
         private String password;
+        private Gender gender;
         private Role role;
+        @CreationTimestamp
+        private LocalDateTime createdAt;
 
-        UserBuilder() {
+        UserBuilder(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public UserBuilder() {
+
         }
 
         public UserBuilder id(Integer id) {
@@ -226,13 +273,18 @@ public class User implements UserDetails {
             return this;
         }
 
+        public UserBuilder gender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
         public UserBuilder role(Role role) {
             this.role = role;
             return this;
         }
 
         public User build() {
-            return new User(this.id, this.studentProfile, this.instructorProfile,this.firstname, this.lastname, this.email, this.password, this.role);
+            return new User(this.id, this.studentProfile, this.instructorProfile,this.firstname, this.lastname, this.email, this.password, this.role,this.gender , this.createdAt);
         }
 
         public String toString() {

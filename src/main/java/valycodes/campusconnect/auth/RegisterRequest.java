@@ -1,5 +1,6 @@
 package valycodes.campusconnect.auth;
 
+import valycodes.campusconnect.model.Gender;
 import valycodes.campusconnect.model.Role;
 
 public class RegisterRequest {
@@ -8,13 +9,15 @@ public class RegisterRequest {
     private String email;
     private String password;
     private Role role;
+    private Gender gender;
 
-    public RegisterRequest(String firstname, String lastname, String email, String password, Role role) {
+    public RegisterRequest(String firstname, String lastname, String email, String password, Role role, Gender gender) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.gender = gender;
     }
 
     public RegisterRequest() {
@@ -111,11 +114,20 @@ public class RegisterRequest {
         return "RegisterRequest(firstname=" + this.getFirstname() + ", lastname=" + this.getLastname() + ", email=" + this.getEmail() + ", password=" + this.getPassword() + ", role=" + this.getRole() + ")";
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public static class RegisterRequestBuilder {
         private String firstname;
         private String lastname;
         private String email;
         private String password;
+        private Gender gender;
         private Role role;
 
         RegisterRequestBuilder() {
@@ -146,8 +158,13 @@ public class RegisterRequest {
             return this;
         }
 
+        public RegisterRequestBuilder gender(Gender gender) {
+            this.gender = gender;
+            return this;
+        }
+
         public RegisterRequest build() {
-            return new RegisterRequest(this.firstname, this.lastname, this.email, this.password, this.role);
+            return new RegisterRequest(this.firstname, this.lastname, this.email, this.password, this.role, this.gender);
         }
 
         public String toString() {
