@@ -1,5 +1,7 @@
 package valycodes.campusconnect.auth;
 
+import valycodes.campusconnect.model.Role;
+
 import java.util.Objects;
 
 public class AuthenticationResponse {
@@ -41,6 +43,8 @@ public class AuthenticationResponse {
         public AuthenticationResponse build() {
             return new AuthenticationResponse(this.token);
         }
+
+
     }
 
     // equals method

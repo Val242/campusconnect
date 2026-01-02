@@ -22,8 +22,7 @@ public class InstructorProfile {
     private Integer id;
 
 
-    @OneToOne(mappedBy = "headOfDepartment")
-    private Department departmentHeaded;
+
 
     @Column(unique = true, nullable = false)
     private Integer employeeNumber;
@@ -31,7 +30,10 @@ public class InstructorProfile {
     @OneToMany(mappedBy = "instructor")
     private List<Course> courses = new ArrayList<>();
 
-    private String department;
+    @ManyToOne()
+    @JoinColumn(name = "department_id")
+    private Department department;
+
     private String faculty;
     private String office;   // optional, e.g., office location
     private String title;    // optional, e.g., Lecturer, Professor

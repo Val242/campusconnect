@@ -1,12 +1,16 @@
 package valycodes.campusconnect.auth;
 
+import valycodes.campusconnect.model.Role;
+
 public class AuthenticationRequest {
     private String email;
     String password;
+    private Role role;
 
-    public AuthenticationRequest(String email, String password) {
+    public AuthenticationRequest(String email, String password, Role role) {
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public AuthenticationRequest() {
@@ -27,7 +31,13 @@ public class AuthenticationRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+    public Role getRole() {
+        return role;
+    }
 
+    public void setRole(Role role) {
+        this.role = role;
+    }
     public boolean equals(final Object o) {
         if (o == this) return true;
         if (!(o instanceof AuthenticationRequest)) return false;
@@ -59,5 +69,6 @@ public class AuthenticationRequest {
     public String toString() {
         return "AuthenticationRequest(email=" + this.getEmail() + ", password=" + this.getPassword() + ")";
     }
+
 
 }

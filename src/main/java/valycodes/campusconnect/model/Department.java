@@ -9,7 +9,9 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Table(name = "department")
 @Entity
@@ -39,6 +41,7 @@ public class Department {
             unique = true
     )
     private InstructorProfile headOfDepartment;
+
     @ManyToOne(
             optional = false,//it enforces the NOT NULL constraint
             fetch = FetchType.LAZY
@@ -48,8 +51,19 @@ public class Department {
             fetch = FetchType.LAZY
     )
     private List<Course> courses;
+
     @OneToMany(mappedBy = "department")
     private List<StudentProfile> students = new ArrayList<>();
+
+    @ManyToMany
+    @OrderBy("createdAt ASC")
+    @JoinTable(
+            name = "department_instructors",
+            joinColumns = @JoinColumn(name = "department_id"),
+            inverseJoinColumns = @JoinColumn(name = "instructor_id")
+    )
+    private Set<InstructorProfile> instructors = new HashSet<>();
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 
