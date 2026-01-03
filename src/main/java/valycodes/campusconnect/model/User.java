@@ -61,6 +61,9 @@ public class User implements UserDetails {
         this.gender = gender;
         this.createdAt = createdAt;
     }
+    public User() {
+        // can be empty - or initialize collections if needed
+    }
 
     public static UserBuilder builder() {
         return new UserBuilder();
