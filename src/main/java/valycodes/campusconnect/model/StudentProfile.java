@@ -24,7 +24,7 @@ public class StudentProfile {
 
 
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private Integer matriculationNumber;
     @ManyToOne()
     @JoinColumn(name = "department_id")

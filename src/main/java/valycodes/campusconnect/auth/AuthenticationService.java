@@ -5,6 +5,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import valycodes.campusconnect.config.JwtService;
+import valycodes.campusconnect.model.InstructorProfile;
+import valycodes.campusconnect.model.Role;
+import valycodes.campusconnect.model.StudentProfile;
 import valycodes.campusconnect.model.User;
 import valycodes.campusconnect.repository.UserRepository;
 
@@ -37,6 +40,18 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .gender(request.getGender())
                 .build();
+        if (request.getRole() == Role.STUDENT) {
+
+            StudentProfile studentProfile = new StudentProfile();
+            user.setStudentProfile(studentProfile);
+
+        } else if (request.getRole() == Role.INSTRUCTOR)
+         {
+
+            InstructorProfile instructorProfile = new InstructorProfile();
+            user.setInstructorProfile(instructorProfile);
+
+        }
 
         repository.save(user);
 

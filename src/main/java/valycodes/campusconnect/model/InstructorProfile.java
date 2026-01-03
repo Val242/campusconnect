@@ -24,7 +24,7 @@ public class InstructorProfile {
 
 
 
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private Integer employeeNumber;
 
     @OneToMany(mappedBy = "instructor")

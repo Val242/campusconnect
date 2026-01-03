@@ -38,8 +38,8 @@ public class User implements UserDetails {
             orphanRemoval = true
     )
     @JoinColumn(
-            name = "instructor_profile_id",
-            referencedColumnName = "id",
+            name = "instructor_profile_name",
+            referencedColumnName = "name",
             unique = true
     )
     private InstructorProfile instructorProfile;
