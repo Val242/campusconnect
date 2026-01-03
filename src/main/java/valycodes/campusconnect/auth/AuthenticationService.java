@@ -5,19 +5,28 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import valycodes.campusconnect.config.JwtService;
+import valycodes.campusconnect.model.InstructorProfile;
+import valycodes.campusconnect.model.Role;
+import valycodes.campusconnect.model.StudentProfile;
 import valycodes.campusconnect.model.User;
+import valycodes.campusconnect.repository.InstructorRepository;
+import valycodes.campusconnect.repository.StudentRepository;
 import valycodes.campusconnect.repository.UserRepository;
 
 @Service
 public class AuthenticationService {
     // private final User user;
     private final UserRepository repository;
+    private final StudentRepository studentRepository;
+    private final InstructorRepository instructorRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationService(UserRepository repository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthenticationService(UserRepository repository, StudentRepository studentRepository, InstructorRepository instructorRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.repository = repository;
+        this.studentRepository = studentRepository;
+        this.instructorRepository = instructorRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -39,6 +48,17 @@ public class AuthenticationService {
                 .build();
 
         repository.save(user);
+        if(user.getRole() == Role.STUDENT) {
+            var studentProfile = new StudentProfile();
+            studentProfile.setUser(user);
+            studentProfile.setMatriculationNumber(request.getMatriculationNumber());
+            studentRepository.save(studentProfile);
+        } else if(user.getRole() == Role.INSTRUCTOR) {
+            var instructorProfile = new InstructorProfile();
+            instructorProfile.setUser(user);
+            instructorProfile.setEmployeeNumber(request.getEmployeeNumber());
+            instructorRepository.save(instructorProfile);
+        }
 
         var jwtToken = jwtService.generateToken(user);
         System.out.println("JWT GENERATED" + jwtToken);

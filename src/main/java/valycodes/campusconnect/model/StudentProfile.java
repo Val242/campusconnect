@@ -3,17 +3,13 @@ package valycodes.campusconnect.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Table
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -22,9 +18,14 @@ public class StudentProfile {
     @GeneratedValue
     private Integer id;
 
+    @OneToOne()
+    @JoinColumn(
+            name = "user_id",
+            unique = true
+    )
+    private User user;
 
-
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private Integer matriculationNumber;
     @ManyToOne()
     @JoinColumn(name = "department_id")
@@ -41,5 +42,105 @@ public class StudentProfile {
     private String level;
 
 
+    public Integer getId() {
+        return this.id;
+    }
 
+    public User getUser() {
+        return this.user;
+    }
+
+    public Integer getMatriculationNumber() {
+        return this.matriculationNumber;
+    }
+
+    public Department getDepartment() {
+        return this.department;
+    }
+
+    public Set<Course> getCourses() {
+        return this.courses;
+    }
+
+    public String getLevel() {
+        return this.level;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setMatriculationNumber(Integer matriculationNumber) {
+        this.matriculationNumber = matriculationNumber;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public void setCourses(Set<Course> courses) {
+        this.courses = courses;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof StudentProfile)) return false;
+        final StudentProfile other = (StudentProfile) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        final Object this$user = this.getUser();
+        final Object other$user = other.getUser();
+        if (this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
+        final Object this$matriculationNumber = this.getMatriculationNumber();
+        final Object other$matriculationNumber = other.getMatriculationNumber();
+        if (this$matriculationNumber == null ? other$matriculationNumber != null : !this$matriculationNumber.equals(other$matriculationNumber))
+            return false;
+        final Object this$department = this.getDepartment();
+        final Object other$department = other.getDepartment();
+        if (this$department == null ? other$department != null : !this$department.equals(other$department))
+            return false;
+        final Object this$courses = this.getCourses();
+        final Object other$courses = other.getCourses();
+        if (this$courses == null ? other$courses != null : !this$courses.equals(other$courses)) return false;
+        final Object this$level = this.getLevel();
+        final Object other$level = other.getLevel();
+        if (this$level == null ? other$level != null : !this$level.equals(other$level)) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof StudentProfile;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $id = this.getId();
+        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
+        final Object $user = this.getUser();
+        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
+        final Object $matriculationNumber = this.getMatriculationNumber();
+        result = result * PRIME + ($matriculationNumber == null ? 43 : $matriculationNumber.hashCode());
+        final Object $department = this.getDepartment();
+        result = result * PRIME + ($department == null ? 43 : $department.hashCode());
+        final Object $courses = this.getCourses();
+        result = result * PRIME + ($courses == null ? 43 : $courses.hashCode());
+        final Object $level = this.getLevel();
+        result = result * PRIME + ($level == null ? 43 : $level.hashCode());
+        return result;
+    }
+
+    public String toString() {
+        return "StudentProfile(id=" + this.getId() + ", user=" + this.getUser() + ", matriculationNumber=" + this.getMatriculationNumber() + ", department=" + this.getDepartment() + ", courses=" + this.getCourses() + ", level=" + this.getLevel() + ")";
+    }
 }

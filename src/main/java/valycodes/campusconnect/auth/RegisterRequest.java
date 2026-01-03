@@ -11,16 +11,29 @@ public class RegisterRequest {
     private Role role;
     private Gender gender;
 
-    public RegisterRequest(String firstname, String lastname, String email, String password, Role role, Gender gender) {
+    //Instructor specific
+    private Integer employeeNumber;
+    private String title;
+
+    //Student specific
+    private Integer matriculationNumber;
+    private String level;
+
+    public RegisterRequest(String firstname, String lastname, String email, String password, Role role, Gender gender, Integer employeeNumber, String title, Integer matriculationNumber, String level) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.password = password;
         this.role = role;
         this.gender = gender;
+        this.employeeNumber = employeeNumber;
+        this.title = title;
+        this.matriculationNumber = matriculationNumber;
+        this.level = level;
     }
 
     public RegisterRequest() {
+
     }
 
     public static RegisterRequestBuilder builder() {
@@ -122,12 +135,48 @@ public class RegisterRequest {
         this.gender = gender;
     }
 
+    public Integer getEmployeeNumber() {
+        return employeeNumber;
+    }
+
+    public void setEmployeeNumber(Integer employeeNumber) {
+        this.employeeNumber = employeeNumber;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getMatriculationNumber() {
+        return matriculationNumber;
+    }
+
+    public void setMatriculationNumber(Integer matriculationNumber) {
+        this.matriculationNumber = matriculationNumber;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
     public static class RegisterRequestBuilder {
         private String firstname;
         private String lastname;
         private String email;
         private String password;
         private Gender gender;
+        private Integer employeeNumber;
+        private String title;
+        private Integer matriculationNumber;
+        private String level;
         private Role role;
 
         RegisterRequestBuilder() {
@@ -163,8 +212,32 @@ public class RegisterRequest {
             return this;
         }
 
+        public RegisterRequestBuilder employeeNumber(Integer employeeNumber) {
+            this.employeeNumber = employeeNumber;
+            return this;
+        }
+
+        public RegisterRequestBuilder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public RegisterRequestBuilder matriculationNumber(Integer matriculationNumber) {
+            this.matriculationNumber = matriculationNumber;
+            return this;
+        }
+
+        public RegisterRequestBuilder level(String level) {
+            this.level = level;
+            return this;
+        }
+
+
         public RegisterRequest build() {
-            return new RegisterRequest(this.firstname, this.lastname, this.email, this.password, this.role, this.gender);
+            return new RegisterRequest(
+                    this.firstname,
+                    this.lastname,
+                    this.email, this.password, this.role, this.gender, this.employeeNumber, this.title, this.matriculationNumber,this.level);
         }
 
         public String toString() {

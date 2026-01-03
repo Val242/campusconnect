@@ -22,27 +22,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    //Owning side
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JoinColumn(
-            name = "student_profile_id",
-            referencedColumnName = "id",
-            unique = true
-    )
-    private StudentProfile studentProfile;
-    @OneToOne(
-            cascade = CascadeType.ALL,
-            orphanRemoval = true
-    )
-    @JoinColumn(
-            name = "instructor_profile_id",
-            referencedColumnName = "id",
-            unique = true
-    )
-    private InstructorProfile instructorProfile;
+
 
     // ───────────────────────────────────────
     // Basic fields
@@ -76,8 +56,6 @@ public class User implements UserDetails {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
-        this.studentProfile = studentProfile;
-        this.instructorProfile = instructorProfile;
         this.password = password;
         this.role = role;
         this.gender = gender;
@@ -97,13 +75,9 @@ public class User implements UserDetails {
         this.id = id;
     }
 
-    public StudentProfile getStudentProfile() {
-        return studentProfile;
-    }
 
-    public void setStudentProfile(StudentProfile studentProfile) {
-        this.studentProfile = studentProfile;
-    }
+
+
 
     public String getFirstname() {
         return firstname;
@@ -198,7 +172,6 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", studentProfile=" + studentProfile +
                 ", firstname='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
@@ -206,13 +179,9 @@ public class User implements UserDetails {
                 '}';
     }
 
-    public InstructorProfile getInstructorProfile() {
-        return instructorProfile;
-    }
 
-    public void setInstructorProfile(InstructorProfile instructorProfile) {
-        this.instructorProfile = instructorProfile;
-    }
+
+
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
