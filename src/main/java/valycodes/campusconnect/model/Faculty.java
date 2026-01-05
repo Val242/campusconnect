@@ -32,8 +32,8 @@ public class Faculty {
     )
     private InstructorProfile dean;
     @OneToMany(
-            mappedBy = "faculty"
-           // fetch = FetchType.LAZY
+            mappedBy = "faculty",
+           fetch = FetchType.LAZY
     )
     private List<Department> departments;
     @CreationTimestamp

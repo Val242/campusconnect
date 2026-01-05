@@ -3,34 +3,41 @@ package valycodes.campusconnect.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import valycodes.campusconnect.dto.FacultyDTORequest;
+import valycodes.campusconnect.mapper.FacultyDTOMapper;
 import valycodes.campusconnect.model.Faculty;
 import valycodes.campusconnect.repository.FacultyRepository;
 
-import java.util.List;
 import java.util.Objects;
 
 @Service
+@Transactional
 public class FacultyService {
     private final FacultyRepository facultyRepository;
+    private final FacultyDTOMapper facultyDTOMapper;
 
     @Autowired
-    public FacultyService(FacultyRepository facultyRepository) {
+    public FacultyService(FacultyRepository facultyRepository, FacultyDTOMapper facultyDTOMapper) {
         this.facultyRepository = facultyRepository;
+        this.facultyDTOMapper = facultyDTOMapper;
     }
 
     // Get all faculty items
-    public List<Faculty> getFaculty() {
-        return facultyRepository.findAll();
+    @Transactional(readOnly = true)
+    public FacultyDTORequest getFaculty(Integer facultyId) {
+        Faculty faculty = facultyRepository.findFacultyById(facultyId)
+                .orElseThrow(()->
+                        new IllegalStateException("Faculty not found"));
+        return facultyDTOMapper.apply(faculty);
     }
 
     // Add a new faculty item
-    public void addNewFaculty(Faculty faculty) {
-        // Check if a faculty with the same ID already exists
-        if (facultyRepository.existsByFacultyName(faculty.getFacultyName())) {
-            throw new IllegalStateException("Faculty already exists");
-        }
-        facultyRepository.save(faculty);
-        System.out.println("Added faculty: " + faculty);
+    public FacultyDTORequest addNewFaculty(FacultyDTORequest requestDTO) {
+        Faculty faculty = new Faculty();
+        faculty.setFacultyName(requestDTO.facultyName());
+        faculty.setFacultyAbbrev(requestDTO.facultyAbbrev());
+        Faculty savedFaculty = facultyRepository.save(faculty);
+        return facultyDTOMapper.apply(savedFaculty);
     }
 
     // Delete a faculty item by ID

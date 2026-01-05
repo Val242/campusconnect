@@ -4,11 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import valycodes.campusconnect.model.Faculty;
+import valycodes.campusconnect.dto.FacultyDTORequest;
 import valycodes.campusconnect.response.ApiResponse;
 import valycodes.campusconnect.service.FacultyService;
 
-import java.util.List;
 @PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping("/api/v1/faculty")
@@ -20,21 +19,25 @@ public class FacultyController {
         this.facultyService = facultyService;
     }
 
-    // Get all foods
-    @GetMapping
-    public List<Faculty> getFaculty() {
-        return facultyService.getFaculty();
+    @GetMapping("/{id}")
+    public  ResponseEntity<FacultyDTORequest> getFaculty(
+            @PathVariable("id") Integer id
+    ){
+        FacultyDTORequest facultyDTO = facultyService.getFaculty(id);
+        return  ResponseEntity.ok(facultyDTO);
     }
+//    @GetMapping
+//    public List<FacultyDTO> getFaculty() {
+//        return (List<Faculty>) facultyService.getFaculty();
+//    }
 
     // Add a new food
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<ApiResponse<Faculty>> addNewFaculty(@RequestBody Faculty faculty) {
-        facultyService.addNewFaculty(faculty);
+    public ResponseEntity<ApiResponse<FacultyDTORequest>> addNewFaculty(@RequestBody FacultyDTORequest request) {
+        facultyService.addNewFaculty(request);
         System.out.println("Faculty added");
-        return ResponseEntity.ok(new ApiResponse<>(200,"Faculty Added Successfully", faculty));
-
-
+        return ResponseEntity.ok(new ApiResponse<>(200,"Faculty Added Successfully", request));
     }
 
     // Delete faculty by ID
