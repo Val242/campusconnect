@@ -1,9 +1,6 @@
 package valycodes.campusconnect.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
@@ -12,9 +9,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "courses")
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Course {
 
     @Id
@@ -58,6 +52,28 @@ public class Course {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    public Course(Integer id, String courseCode, String title, String description, Integer creditUnits, String level, String semester, Department department, InstructorProfile instructor, Set<StudentProfile> students, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.id = id;
+        this.courseCode = courseCode;
+        this.title = title;
+        this.description = description;
+        this.creditUnits = creditUnits;
+        this.level = level;
+        this.semester = semester;
+        this.department = department;
+        this.instructor = instructor;
+        this.students = students;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Course() {
+    }
+
+    public static CourseBuilder builder() {
+        return new CourseBuilder();
+    }
 
     public Integer getId() {
         return this.id;
@@ -240,5 +256,91 @@ public class Course {
 
     public String toString() {
         return "Course(id=" + this.getId() + ", courseCode=" + this.getCourseCode() + ", title=" + this.getTitle() + ", description=" + this.getDescription() + ", creditUnits=" + this.getCreditUnits() + ", level=" + this.getLevel() + ", semester=" + this.getSemester() + ", department=" + this.getDepartment() + ", instructor=" + this.getInstructor() + ", students=" + this.getStudents() + ", createdAt=" + this.getCreatedAt() + ", updatedAt=" + this.getUpdatedAt() + ")";
+    }
+
+    public static class CourseBuilder {
+        private Integer id;
+        private String courseCode;
+        private String title;
+        private String description;
+        private Integer creditUnits;
+        private String level;
+        private String semester;
+        private Department department;
+        private InstructorProfile instructor;
+        private Set<StudentProfile> students;
+        private LocalDateTime createdAt;
+        private LocalDateTime updatedAt;
+
+        CourseBuilder() {
+        }
+
+        public CourseBuilder id(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public CourseBuilder courseCode(String courseCode) {
+            this.courseCode = courseCode;
+            return this;
+        }
+
+        public CourseBuilder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public CourseBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public CourseBuilder creditUnits(Integer creditUnits) {
+            this.creditUnits = creditUnits;
+            return this;
+        }
+
+        public CourseBuilder level(String level) {
+            this.level = level;
+            return this;
+        }
+
+        public CourseBuilder semester(String semester) {
+            this.semester = semester;
+            return this;
+        }
+
+        public CourseBuilder department(Department department) {
+            this.department = department;
+            return this;
+        }
+
+        public CourseBuilder instructor(InstructorProfile instructor) {
+            this.instructor = instructor;
+            return this;
+        }
+
+        public CourseBuilder students(Set<StudentProfile> students) {
+            this.students = students;
+            return this;
+        }
+
+        public CourseBuilder createdAt(LocalDateTime createdAt) {
+            this.createdAt = createdAt;
+            return this;
+        }
+
+        public CourseBuilder updatedAt(LocalDateTime updatedAt) {
+            this.updatedAt = updatedAt;
+            return this;
+        }
+
+        public Course build() {
+            return new Course(this.id, this.courseCode, this.title, this.description, this.creditUnits, this.level, this.semester, this.department, this.instructor, this.students, this.createdAt, this.updatedAt);
+        }
+
+        public String toString() {
+            return "Course.CourseBuilder(id=" + this.id + ", courseCode=" + this.courseCode + ", title=" + this.title + ", description=" + this.description + ", creditUnits=" + this.creditUnits + ", level=" + this.level + ", semester=" + this.semester + ", department=" + this.department + ", instructor=" + this.instructor + ", students=" + this.students + ", createdAt=" + this.createdAt + ", updatedAt=" + this.updatedAt + ")";
+        }
     }
 }
