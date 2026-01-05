@@ -14,7 +14,7 @@ public class DepartmentDTOMapper implements Function<Department, DepartmentDTORe
         return new DepartmentDTORequest(
                 department.getDepartmentName(),
                 department.getDepartmentAbbrev(),
-                department.getFaculty().getId()
+                department.getFaculty() != null? department.getFaculty().getId(): null
         );
     }
 }
