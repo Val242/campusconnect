@@ -36,9 +36,13 @@ public class DepartmentService {
         return departmentDTOMapper.apply(department);
     }
     public DepartmentDTORequest addNewDepartment(DepartmentDTORequest requestDTO) {
+        Faculty faculty = facultyRepository.findFacultyById(requestDTO.facultyId())
+                .orElseThrow(()-> new IllegalStateException("Faculty not Found"));
         Department department = new Department();
         department.setDepartmentName(requestDTO.departmentName());
         department.setDepartmentAbbrev(requestDTO.departmentAbbrev());
+        department.setFaculty(faculty);
+        department.getFaculty().getId();
         Department savedDepartment = departmentRepository.save(department);
         return departmentDTOMapper.apply(savedDepartment);
     }
