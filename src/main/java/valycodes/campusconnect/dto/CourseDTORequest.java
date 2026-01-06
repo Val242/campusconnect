@@ -7,5 +7,8 @@ public record CourseDTORequest(
         Integer creditUnits,
         String level,
         String semester,
-        String departmentName
+        Integer departmentId
 ) {}
+
+//→ Everything (constructor, getters, equals(), hashCode(), toString()) is automatically generated — you write one
+//line instead of 20+.
