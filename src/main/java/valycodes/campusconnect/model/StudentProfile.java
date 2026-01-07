@@ -20,6 +20,12 @@ public class StudentProfile {
     @OneToOne(mappedBy = "studentProfile")
     private User user;
 
+    private String firstname;
+    private String lastname;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
     @Column(unique = true)
     private Integer matriculationNumber;
     @ManyToOne()
@@ -56,6 +62,7 @@ public class StudentProfile {
     public Set<Course> getCourses() {
         return this.courses;
     }
+
     public User user() {
         return this.user;
     }
@@ -71,8 +78,6 @@ public class StudentProfile {
     public void setUser(User user) {
         this.user = user;
     }
-
-
 
 
     public void setMatriculationNumber(Integer matriculationNumber) {
@@ -148,5 +153,29 @@ public class StudentProfile {
 
     public String toString() {
         return "StudentProfile(id=" + this.getId() + ", user=" + ", matriculationNumber=" + this.getMatriculationNumber() + ", department=" + this.getDepartment() + ", courses=" + this.getCourses() + ", level=" + this.getLevel() + ")";
+    }
+
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

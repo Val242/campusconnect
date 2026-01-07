@@ -52,6 +52,9 @@ public class AuthenticationService {
             var studentProfile = new StudentProfile();
             studentProfile.setUser(user);
             studentProfile.setMatriculationNumber(request.getMatriculationNumber());
+            studentProfile.setFirstname(request.getFirstname());
+            studentProfile.setLastname(request.getLastname());
+            studentProfile.setEmail(request.getEmail());
             studentRepository.save(studentProfile);
         } else if(user.getRole() == Role.INSTRUCTOR) {
             var instructorProfile = new InstructorProfile();
