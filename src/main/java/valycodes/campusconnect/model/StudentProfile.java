@@ -17,7 +17,7 @@ public class StudentProfile {
     @Id
     @GeneratedValue
     private Integer id;
-    @OneToOne(mappedBy = "studentProfile")
+    @OneToOne(mappedBy = "studentProfile")//d
     private User user;
 
     private String firstname;
