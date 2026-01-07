@@ -17,12 +17,7 @@ public class StudentProfile {
     @Id
     @GeneratedValue
     private Integer id;
-
-    @OneToOne()
-    @JoinColumn(
-            name = "user_id",
-            unique = true
-    )
+    @OneToOne(mappedBy = "studentProfile")
     private User user;
 
     @Column(unique = true)
@@ -46,9 +41,9 @@ public class StudentProfile {
         return this.id;
     }
 
-    public User getUser() {
-        return this.user;
-    }
+//    public User getUser() {
+//        return this.user;
+//    }
 
     public Integer getMatriculationNumber() {
         return this.matriculationNumber;
@@ -60,6 +55,9 @@ public class StudentProfile {
 
     public Set<Course> getCourses() {
         return this.courses;
+    }
+    public User user() {
+        return this.user;
     }
 
     public String getLevel() {
@@ -73,6 +71,9 @@ public class StudentProfile {
     public void setUser(User user) {
         this.user = user;
     }
+
+
+
 
     public void setMatriculationNumber(Integer matriculationNumber) {
         this.matriculationNumber = matriculationNumber;
@@ -118,6 +119,11 @@ public class StudentProfile {
         return true;
     }
 
+
+    public User getUser() {
+        return this.user;
+    }
+
     protected boolean canEqual(final Object other) {
         return other instanceof StudentProfile;
     }
@@ -127,8 +133,8 @@ public class StudentProfile {
         int result = 1;
         final Object $id = this.getId();
         result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final Object $user = this.getUser();
-        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
+//        final Object $user = this.getUser();
+//        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
         final Object $matriculationNumber = this.getMatriculationNumber();
         result = result * PRIME + ($matriculationNumber == null ? 43 : $matriculationNumber.hashCode());
         final Object $department = this.getDepartment();
@@ -141,6 +147,6 @@ public class StudentProfile {
     }
 
     public String toString() {
-        return "StudentProfile(id=" + this.getId() + ", user=" + this.getUser() + ", matriculationNumber=" + this.getMatriculationNumber() + ", department=" + this.getDepartment() + ", courses=" + this.getCourses() + ", level=" + this.getLevel() + ")";
+        return "StudentProfile(id=" + this.getId() + ", user=" + ", matriculationNumber=" + this.getMatriculationNumber() + ", department=" + this.getDepartment() + ", courses=" + this.getCourses() + ", level=" + this.getLevel() + ")";
     }
 }

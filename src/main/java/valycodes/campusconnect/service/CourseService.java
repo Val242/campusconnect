@@ -9,6 +9,7 @@ import valycodes.campusconnect.mapper.CourseDTOMapper;
 import valycodes.campusconnect.mapper.DepartmentDTOMapper;
 import valycodes.campusconnect.model.Course;
 import valycodes.campusconnect.model.Department;
+import valycodes.campusconnect.model.Faculty;
 import valycodes.campusconnect.repository.CourseRepository;
 import valycodes.campusconnect.repository.DepartmentRepository;
 
@@ -36,13 +37,16 @@ public class CourseService {
         return courseDTOMapper.apply(course);
     }
     public CourseDTORequest addNewCourse(CourseDTORequest requestDTO) {
+       Department department = departmentRepository.findDepartmentById(requestDTO.departmentId())
+                .orElseThrow(()-> new IllegalStateException("Faculty not Found"));
         Course course = new Course();
         course.setCourseCode(requestDTO.courseCode());
         course.setTitle(requestDTO.title());
         course.setCreditUnits(requestDTO.creditUnits());
         course.setLevel(requestDTO.level());
         course.setSemester(requestDTO.semester());
-      //  course.setDepartment(requestDTO.departmentName().);
+       course.setDepartment(department);
+       course.getDepartment().getId();
         Course savedCourse = courseRepository.save(course);
         return courseDTOMapper.apply(savedCourse);
     }

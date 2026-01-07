@@ -10,7 +10,7 @@ import java.util.function.Function;
 
 @Service
 public class CourseDTOMapper implements Function<Course, CourseDTORequest> {
-
+//“This object knows how to take one Course and turn it into one CourseDTORequest.”
     @Override
     public CourseDTORequest apply(Course course) {
         return new CourseDTORequest(
@@ -20,7 +20,10 @@ public class CourseDTOMapper implements Function<Course, CourseDTORequest> {
                 course.getCreditUnits(),
                 course.getLevel(),
                 course.getSemester(),
-                course.getDepartment().getDepartmentName()
+                course.getDepartment() != null ? course.getDepartment().getId() : null
+                // department.getFaculty() != null? department.getFaculty().getId(): null
         );
     }
 }
+
+
