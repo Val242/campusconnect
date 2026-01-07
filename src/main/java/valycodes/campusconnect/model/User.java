@@ -68,10 +68,9 @@ public class User implements UserDetails {
         this.gender = gender;
         this.createdAt = createdAt;
     }
-    public User(Integer id, StudentProfile studentProfile, InstructorProfile instructorProfile, String firstname, String lastname, String email, String password, Role role, Gender gender, LocalDateTime createdAt, StudentProfile studentProfile1) {
+    public User() {
         // can be empty - or initialize collections if needed
 
-        this.studentProfile = studentProfile1;
     }
 
     public static UserBuilder builder() {
