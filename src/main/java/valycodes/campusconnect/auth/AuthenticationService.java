@@ -32,35 +32,43 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthenticationResponse register(RegisterRequest request) {
+    public AuthenticationResponse register(RegistrationDTORequest requestDTO) {
 
-        if(repository.existsByEmail(request.getEmail())){
+        if(repository.existsByEmail(requestDTO.email())){
             throw new IllegalStateException("Email in use");
         }
-        // User.builder().build();
-        var user = User.builder()
-                .firstname(request.getFirstname())
-                .lastname(request.getLastname())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .role(request.getRole())
-                .gender(request.getGender())
-                .build();
+        User user = new User();
+        user.setFirstname(requestDTO.firstName());
+        user.setLastname(requestDTO.lastName());
+        user.setEmail(requestDTO.email());
+        user.setRole(requestDTO.role());
+        user.setGender(requestDTO.gender());
+        user.setPassword(requestDTO.password());
 
         repository.save(user);
         if(user.getRole() == Role.STUDENT) {
-            var studentProfile = new StudentProfile();
-            studentProfile.setUser(user);
-            studentProfile.setMatriculationNumber(request.getMatriculationNumber());
-            studentProfile.setFirstname(request.getFirstname());
-            studentProfile.setLastname(request.getLastname());
-            studentProfile.setEmail(request.getEmail());
-            studentRepository.save(studentProfile);
+            StudentProfile student = new StudentProfile();
+            student.setUser(user);
+            student.setFirstname(user.getFirstname());
+            student.setLastname(user.getLastname());
+            student.setEmail(user.getEmail());
+            student.setGender(user.getGender());
+            student.setMatriculationNumber(student.getMatriculationNumber());
+            student.setLevel(student.getLevel());
+            student.getDepartment().getId();
+            student.getDepartment().getDepartmentName();
+            studentRepository.save(student);
         } else if(user.getRole() == Role.INSTRUCTOR) {
-            var instructorProfile = new InstructorProfile();
-            instructorProfile.setUser(user);
-            instructorProfile.setEmployeeNumber(request.getEmployeeNumber());
-            instructorRepository.save(instructorProfile);
+            InstructorProfile instructor = new InstructorProfile();
+            instructor.setUser(user);
+           instructor.setFirstname(user.getFirstname());
+           instructor.setLastname(user.getLastname());
+           instructor.setEmail(user.getEmail());
+           instructor.setGender(user.getGender());
+           instructor.setEmployeeNumber(instructor.getEmployeeNumber());
+           instructor.getDepartment().getId();
+           instructor.getDepartment().getDepartmentName();
+            instructorRepository.save(instructor);
         }
 
         var jwtToken = jwtService.generateToken(user);
