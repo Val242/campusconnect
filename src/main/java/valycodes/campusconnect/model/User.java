@@ -218,6 +218,14 @@ public class User implements UserDetails {
         this.studentProfile = studentProfile;
     }
 
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public static class UserBuilder {
         private Integer id;
         private String firstname;

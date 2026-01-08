@@ -22,8 +22,9 @@ public class InstructorProfile {
     @OneToOne(mappedBy = "instructorProfile")
     private User user;
 
-
-
+    private String firstname;
+    private String lastname;
+    private String email;
     @Column(unique = true)
     private Integer employeeNumber;
 
@@ -38,13 +39,15 @@ public class InstructorProfile {
     private String office;   // optional, e.g., office location
     private String title;    // optional, e.g., Lecturer, Professor
 
+    @Column(nullable = false)
+    private Gender gender;
     public Integer getId() {
         return this.id;
     }
 
-   public User getUser() {
-       return this.user;
-   }
+    public User getUser() {
+        return this.user;
+    }
 
     public Integer getEmployeeNumber() {
         return this.employeeNumber;
@@ -110,9 +113,9 @@ public class InstructorProfile {
         final Object this$id = this.getId();
         final Object other$id = other.getId();
         if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
-       final Object this$user = this.getUser();
-       final Object other$user = other.getUser();
-       if (this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
+        final Object this$user = this.getUser();
+        final Object other$user = other.getUser();
+        if (this$user == null ? other$user != null : !this$user.equals(other$user)) return false;
         final Object this$employeeNumber = this.getEmployeeNumber();
         final Object other$employeeNumber = other.getEmployeeNumber();
         if (this$employeeNumber == null ? other$employeeNumber != null : !this$employeeNumber.equals(other$employeeNumber))
@@ -145,8 +148,8 @@ public class InstructorProfile {
         int result = 1;
         final Object $id = this.getId();
         result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-    final Object $user = this.getUser();
-    result = result * PRIME + ($user == null ? 43 : $user.hashCode());
+        final Object $user = this.getUser();
+        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
         final Object $employeeNumber = this.getEmployeeNumber();
         result = result * PRIME + ($employeeNumber == null ? 43 : $employeeNumber.hashCode());
         final Object $courses = this.getCourses();
@@ -164,5 +167,36 @@ public class InstructorProfile {
 
     public String toString() {
         return "InstructorProfile(id=" + this.getId() + ", user=" + ", employeeNumber=" + this.getEmployeeNumber() + ", courses=" + this.getCourses() + ", department=" + this.getDepartment() + ", faculty=" + this.getFaculty() + ", office=" + this.getOffice() + ", title=" + this.getTitle() + ")";
+    }
+
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Gender getGender() {
+        return this.gender;
     }
 }

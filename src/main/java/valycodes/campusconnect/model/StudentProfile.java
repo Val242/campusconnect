@@ -31,6 +31,8 @@ public class StudentProfile {
     @ManyToOne()
     @JoinColumn(name = "department_id")
     private Department department;
+    @Column(nullable = false)
+    private Gender gender;
 
     @ManyToMany
     @JoinTable(
@@ -177,5 +179,13 @@ public class StudentProfile {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Gender getGender() {
+        return this.gender;
     }
 }
