@@ -43,7 +43,7 @@ public class AuthenticationService {
         user.setEmail(requestDTO.email());
         user.setRole(requestDTO.role());
         user.setGender(requestDTO.gender());
-        user.setPassword(requestDTO.password());
+        user.setPassword(passwordEncoder.encode(requestDTO.password()));
 
         repository.save(user);
         if(user.getRole() == Role.STUDENT) {
