@@ -17,10 +17,11 @@ public class RegistrationDTOMapper implements Function<User, RegistrationDTORequ
                 user.getEmail(),
                 user.getRole(),
                 user.getGender(),
-                user.getPassword()
+               user.getPassword()
                 // department.getFaculty() != null? department.getFaculty().getId(): null
         );
     }
+
 }
 
 

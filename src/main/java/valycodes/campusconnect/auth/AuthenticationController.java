@@ -17,18 +17,14 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<AuthenticationResponse >> register(
+    public ResponseEntity<ApiResponse<RegistrationDTORequest >> register(
             @RequestBody RegistrationDTORequest request
     ) {
-        AuthenticationResponse authResponse = service.register(request);
-
-        ApiResponse<AuthenticationResponse> apiResponse = new ApiResponse<>(
+        return ResponseEntity.ok(  new ApiResponse<>(
                 200,
                 "User registered and authenticated successfully",
-                authResponse
-        );
-
-        return ResponseEntity.ok(apiResponse);
+                request
+        ));
     }
     @PostMapping("/authenticate")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> authenticate(
