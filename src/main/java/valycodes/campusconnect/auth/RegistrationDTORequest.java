@@ -4,8 +4,8 @@ import valycodes.campusconnect.model.Gender;
 import valycodes.campusconnect.model.Role;
 
 public record RegistrationDTORequest(
-        String firstName,
-        String lastName,
+        String firstname,
+        String lastname,
         String email,
         Role role,
         Gender gender,
