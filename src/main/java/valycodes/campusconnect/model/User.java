@@ -38,6 +38,11 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
+    private InstructorProfile instructorProfile;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
+    private StudentProfile studentProfile;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -58,11 +63,14 @@ public class User implements UserDetails {
         this.email = email;
         this.password = password;
         this.role = role;
+        this.instructorProfile = instructorProfile;
+        this.studentProfile = studentProfile;
         this.gender = gender;
         this.createdAt = createdAt;
     }
     public User() {
         // can be empty - or initialize collections if needed
+
     }
 
     public static UserBuilder builder() {
@@ -194,6 +202,30 @@ public class User implements UserDetails {
         this.createdAt = createdAt;
     }
 
+    public InstructorProfile getInstructorProfile() {
+        return instructorProfile;
+    }
+
+    public void setInstructorProfile(InstructorProfile instructorProfile) {
+        this.instructorProfile = instructorProfile;
+    }
+
+    public StudentProfile getStudentProfile() {
+        return studentProfile;
+    }
+
+    public void setStudentProfile(StudentProfile studentProfile) {
+        this.studentProfile = studentProfile;
+    }
+
+    public Gender getGender() {
+        return gender;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public static class UserBuilder {
         private Integer id;
         private String firstname;
@@ -222,6 +254,11 @@ public class User implements UserDetails {
 
         public UserBuilder studentProfile(StudentProfile studentProfile) {
             this.studentProfile = studentProfile;
+            return this;
+        }
+
+        public UserBuilder instructorProfile(InstructorProfile instructorProfile) {
+            this.instructorProfile = instructorProfile;
             return this;
         }
 

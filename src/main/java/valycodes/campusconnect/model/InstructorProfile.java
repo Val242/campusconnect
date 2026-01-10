@@ -18,13 +18,13 @@ public class InstructorProfile {
     @Id
     @GeneratedValue
     private Integer id;
-    @OneToOne
-    @JoinColumn(
-            name = "user_id",
-            unique = true
-    )
+
+    @OneToOne(mappedBy = "instructorProfile")
     private User user;
 
+    private String firstname;
+    private String lastname;
+    private String email;
     @Column(unique = true)
     private Integer employeeNumber;
 
@@ -39,6 +39,8 @@ public class InstructorProfile {
     private String office;   // optional, e.g., office location
     private String title;    // optional, e.g., Lecturer, Professor
 
+    @Column(nullable = false)
+    private Gender gender;
     public Integer getId() {
         return this.id;
     }
@@ -164,6 +166,37 @@ public class InstructorProfile {
     }
 
     public String toString() {
-        return "InstructorProfile(id=" + this.getId() + ", user=" + this.getUser() + ", employeeNumber=" + this.getEmployeeNumber() + ", courses=" + this.getCourses() + ", department=" + this.getDepartment() + ", faculty=" + this.getFaculty() + ", office=" + this.getOffice() + ", title=" + this.getTitle() + ")";
+        return "InstructorProfile(id=" + this.getId() + ", user=" + ", employeeNumber=" + this.getEmployeeNumber() + ", courses=" + this.getCourses() + ", department=" + this.getDepartment() + ", faculty=" + this.getFaculty() + ", office=" + this.getOffice() + ", title=" + this.getTitle() + ")";
+    }
+
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Gender getGender() {
+        return this.gender;
     }
 }

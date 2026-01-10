@@ -17,19 +17,22 @@ public class StudentProfile {
     @Id
     @GeneratedValue
     private Integer id;
-
-    @OneToOne()
-    @JoinColumn(
-            name = "user_id",
-            unique = true
-    )
+    @OneToOne(mappedBy = "studentProfile")//d
     private User user;
+
+    private String firstname;
+    private String lastname;
+
+    @Column(nullable = false, unique = true)
+    private String email;
 
     @Column(unique = true)
     private Integer matriculationNumber;
     @ManyToOne()
     @JoinColumn(name = "department_id")
     private Department department;
+    @Column(nullable = false)
+    private Gender gender;
 
     @ManyToMany
     @JoinTable(
@@ -46,9 +49,9 @@ public class StudentProfile {
         return this.id;
     }
 
-    public User getUser() {
-        return this.user;
-    }
+//    public User getUser() {
+//        return this.user;
+//    }
 
     public Integer getMatriculationNumber() {
         return this.matriculationNumber;
@@ -62,6 +65,10 @@ public class StudentProfile {
         return this.courses;
     }
 
+    public User user() {
+        return this.user;
+    }
+
     public String getLevel() {
         return this.level;
     }
@@ -73,6 +80,7 @@ public class StudentProfile {
     public void setUser(User user) {
         this.user = user;
     }
+
 
     public void setMatriculationNumber(Integer matriculationNumber) {
         this.matriculationNumber = matriculationNumber;
@@ -118,6 +126,11 @@ public class StudentProfile {
         return true;
     }
 
+
+    public User getUser() {
+        return this.user;
+    }
+
     protected boolean canEqual(final Object other) {
         return other instanceof StudentProfile;
     }
@@ -127,8 +140,8 @@ public class StudentProfile {
         int result = 1;
         final Object $id = this.getId();
         result = result * PRIME + ($id == null ? 43 : $id.hashCode());
-        final Object $user = this.getUser();
-        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
+//        final Object $user = this.getUser();
+//        result = result * PRIME + ($user == null ? 43 : $user.hashCode());
         final Object $matriculationNumber = this.getMatriculationNumber();
         result = result * PRIME + ($matriculationNumber == null ? 43 : $matriculationNumber.hashCode());
         final Object $department = this.getDepartment();
@@ -141,6 +154,38 @@ public class StudentProfile {
     }
 
     public String toString() {
-        return "StudentProfile(id=" + this.getId() + ", user=" + this.getUser() + ", matriculationNumber=" + this.getMatriculationNumber() + ", department=" + this.getDepartment() + ", courses=" + this.getCourses() + ", level=" + this.getLevel() + ")";
+        return "StudentProfile(id=" + this.getId() + ", user=" + ", matriculationNumber=" + this.getMatriculationNumber() + ", department=" + this.getDepartment() + ", courses=" + this.getCourses() + ", level=" + this.getLevel() + ")";
+    }
+
+    public String getFirstname() {
+        return this.firstname;
+    }
+
+    public String getLastname() {
+        return this.lastname;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
+    public Gender getGender() {
+        return this.gender;
     }
 }
