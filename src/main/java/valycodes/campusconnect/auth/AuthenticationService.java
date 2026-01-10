@@ -38,8 +38,8 @@ public class AuthenticationService {
             throw new IllegalStateException("Email in use");
         }
         User user = new User();
-        user.setFirstname(requestDTO.firstName());
-        user.setLastname(requestDTO.lastName());
+        user.setFirstname(requestDTO.firstname());
+        user.setLastname(requestDTO.lastname());
         user.setEmail(requestDTO.email());
         user.setRole(requestDTO.role());
         user.setGender(requestDTO.gender());
