@@ -20,6 +20,7 @@ public class AuthenticationController {
     public ResponseEntity<ApiResponse<RegistrationDTORequest >> register(
             @RequestBody RegistrationDTORequest request
     ) {
+        AuthenticationResponse authResponse = service.register(request);
         return ResponseEntity.ok(  new ApiResponse<>(
                 200,
                 "User registered and authenticated successfully",
