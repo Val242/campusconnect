@@ -5,10 +5,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import valycodes.campusconnect.config.JwtService;
-import valycodes.campusconnect.model.InstructorProfile;
-import valycodes.campusconnect.model.Role;
-import valycodes.campusconnect.model.StudentProfile;
-import valycodes.campusconnect.model.User;
+import valycodes.campusconnect.model.*;
+import valycodes.campusconnect.repository.DepartmentRepository;
 import valycodes.campusconnect.repository.InstructorRepository;
 import valycodes.campusconnect.repository.StudentRepository;
 import valycodes.campusconnect.repository.UserRepository;
@@ -19,14 +17,16 @@ public class AuthenticationService {
     private final UserRepository repository;
     private final StudentRepository studentRepository;
     private final InstructorRepository instructorRepository;
+    private final DepartmentRepository departmentRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    public AuthenticationService(UserRepository repository, StudentRepository studentRepository, InstructorRepository instructorRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
+    public AuthenticationService(UserRepository repository, StudentRepository studentRepository, InstructorRepository instructorRepository, DepartmentRepository departmentRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.repository = repository;
         this.studentRepository = studentRepository;
         this.instructorRepository = instructorRepository;
+        this.departmentRepository = departmentRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
@@ -47,7 +47,9 @@ public class AuthenticationService {
 
         repository.save(user);
         if(user.getRole() == Role.STUDENT) {
-            StudentProfile student = new StudentProfile();
+//            Department department = departmentRepository.findDepartmentById(studentDTORequest.departmentId())
+//                    .orElseThrow(()-> new IllegalStateException("Faculty not Found"));
+         StudentProfile student = new StudentProfile();
             student.setUser(user);
             student.setFirstname(user.getFirstname());
             student.setLastname(user.getLastname());
@@ -55,7 +57,7 @@ public class AuthenticationService {
             student.setGender(user.getGender());
             student.setMatriculationNumber(student.getMatriculationNumber());
             student.setLevel(student.getLevel());
-            student.getDepartment().getId();
+          //  student.setDepartment(department);
             student.getDepartment().getDepartmentName();
             studentRepository.save(student);
         } else if(user.getRole() == Role.INSTRUCTOR) {

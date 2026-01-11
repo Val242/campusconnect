@@ -22,7 +22,9 @@ public class StudentDTOMapper implements Function<StudentProfile, StudentDTORequ
                 student.getDepartment() != null
                         ? student.getDepartment().getDepartmentName() : null,
                 student.getUser().getGender(),
+                student.getUser().getRole(),
                 student.getUser().getPassword()
+
         );
     }
 }
