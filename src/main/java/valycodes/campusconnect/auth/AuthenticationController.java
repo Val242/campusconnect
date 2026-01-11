@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import valycodes.campusconnect.model.Role;
 import valycodes.campusconnect.response.ApiResponse;
 
 @RestController
@@ -17,16 +18,24 @@ public class AuthenticationController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ApiResponse<RegistrationDTORequest >> register(
+    public ResponseEntity<ApiResponse<AuthenticationResponse>> register(
             @RequestBody RegistrationDTORequest request
     ) {
+        // Extract studentProfile if role is STUDENT
+//        StudentDTORequest studentDTO = null;
+//        if (request.role() == Role.STUDENT && request.studentProfile() != null) {
+//            studentDTO = request.studentProfile();
+//        }
+
         AuthenticationResponse authResponse = service.register(request);
-        return ResponseEntity.ok(  new ApiResponse<>(
+
+        return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "User registered and authenticated successfully",
-                request
+                authResponse
         ));
     }
+
     @PostMapping("/authenticate")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> authenticate(
             @RequestBody AuthenticationRequest request
