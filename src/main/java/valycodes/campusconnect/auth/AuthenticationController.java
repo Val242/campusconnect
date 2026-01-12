@@ -17,15 +17,12 @@ public class AuthenticationController {
         this.service = service;
     }
 
-    @PostMapping("/register")
+
+    @PostMapping("/register/student")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> register(
-            @RequestBody RegistrationDTORequest request
+            @RequestBody RegistrationWrapper request
     ) {
-        // Extract studentProfile if role is STUDENT
-//        StudentDTORequest studentDTO = null;
-//        if (request.role() == Role.STUDENT && request.studentProfile() != null) {
-//            studentDTO = request.studentProfile();
-//        }
+
 
         AuthenticationResponse authResponse = service.register(request);
 
