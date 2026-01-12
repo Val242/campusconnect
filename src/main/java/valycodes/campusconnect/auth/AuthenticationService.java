@@ -32,23 +32,23 @@ public class AuthenticationService {
         this.authenticationManager = authenticationManager;
     }
 
-    public AuthenticationResponse register(RegistrationDTORequest requestDTO) {
+    public AuthenticationResponse register(RegistrationWrapper registrationWrapper) {
 
-        if(repository.existsByEmail(requestDTO.email())){
+        if(repository.existsByEmail(registrationWrapper.registrationDTORequest.email())){
             throw new IllegalStateException("Email in use");
         }
         User user = new User();
-        user.setFirstname(requestDTO.firstname());
-        user.setLastname(requestDTO.lastname());
-        user.setEmail(requestDTO.email());
-        user.setRole(requestDTO.role());
-        user.setGender(requestDTO.gender());
-        user.setPassword(passwordEncoder.encode(requestDTO.password()));
+        user.setFirstname(registrationWrapper.registrationDTORequest.firstname());
+        user.setLastname(registrationWrapper.registrationDTORequest.lastname());
+        user.setEmail(registrationWrapper.registrationDTORequest.email());
+        user.setRole(registrationWrapper.registrationDTORequest.role());
+        user.setGender(registrationWrapper.registrationDTORequest.gender());
+        user.setPassword(passwordEncoder.encode(registrationWrapper.registrationDTORequest.password()));
 
         repository.save(user);
         if(user.getRole() == Role.STUDENT) {
-//            Department department = departmentRepository.findDepartmentById(studentDTORequest.departmentId())
-//                    .orElseThrow(()-> new IllegalStateException("Faculty not Found"));
+//           Department department = departmentRepository.findDepartmentById(registrationWrapper.studentDTORequest.departmentId())
+//                   .orElseThrow(()-> new IllegalStateException("Department not Found"));
          StudentProfile student = new StudentProfile();
             student.setUser(user);
             student.setFirstname(user.getFirstname());
@@ -57,8 +57,8 @@ public class AuthenticationService {
             student.setGender(user.getGender());
             student.setMatriculationNumber(student.getMatriculationNumber());
             student.setLevel(student.getLevel());
-          //  student.setDepartment(department);
-            student.getDepartment().getDepartmentName();
+//            student.setDepartment(department);
+//            student.getDepartment().getDepartmentName();
             studentRepository.save(student);
         } else if(user.getRole() == Role.INSTRUCTOR) {
             InstructorProfile instructor = new InstructorProfile();
