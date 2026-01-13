@@ -34,19 +34,25 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegistrationWrapper registrationWrapper) {
 
-        if(repository.existsByEmail(registrationWrapper.registrationDTORequest.email())){
+        RegistrationDTORequest reg = registrationWrapper.registrationDTORequest();
+
+        if(repository.existsByEmail(registrationWrapper.registrationDTORequest().email())){
             throw new IllegalStateException("Email in use");
         }
         User user = new User();
-        user.setFirstname(registrationWrapper.registrationDTORequest.firstname());
-        user.setLastname(registrationWrapper.registrationDTORequest.lastname());
-        user.setEmail(registrationWrapper.registrationDTORequest.email());
-        user.setRole(registrationWrapper.registrationDTORequest.role());
-        user.setGender(registrationWrapper.registrationDTORequest.gender());
-        user.setPassword(passwordEncoder.encode(registrationWrapper.registrationDTORequest.password()));
+        user.setFirstname(reg.firstname());
+        user.setLastname(reg.lastname());
+        user.setEmail(reg.email());
+        user.setRole(reg.role());
+        user.setGender(reg.gender());
+        user.setPassword(passwordEncoder.encode(reg.password()));
 
         repository.save(user);
         if(user.getRole() == Role.STUDENT) {
+            StudentDTORequest studentDTO = registrationWrapper.studentDTORequest();
+            if (studentDTO == null) {
+                throw new IllegalStateException("Student data is required for STUDENT role");
+            }
 //           Department department = departmentRepository.findDepartmentById(registrationWrapper.studentDTORequest.departmentId())
 //                   .orElseThrow(()-> new IllegalStateException("Department not Found"));
          StudentProfile student = new StudentProfile();
@@ -61,6 +67,10 @@ public class AuthenticationService {
 //            student.getDepartment().getDepartmentName();
             studentRepository.save(student);
         } else if(user.getRole() == Role.INSTRUCTOR) {
+            InstructorDTORequest instructorDTO = registrationWrapper.instructorDTORequest();
+            if (instructorDTO == null) {
+                throw new IllegalStateException("Instructor data is required for INSTRUCTOR role");
+            }
             InstructorProfile instructor = new InstructorProfile();
             instructor.setUser(user);
            instructor.setFirstname(user.getFirstname());
@@ -68,8 +78,8 @@ public class AuthenticationService {
            instructor.setEmail(user.getEmail());
            instructor.setGender(user.getGender());
            instructor.setEmployeeNumber(instructor.getEmployeeNumber());
-           instructor.getDepartment().getId();
-           instructor.getDepartment().getDepartmentName();
+//           instructor.getDepartment().getId();
+//           instructor.getDepartment().getDepartmentName();
             instructorRepository.save(instructor);
         }
 
