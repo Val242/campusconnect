@@ -18,9 +18,10 @@ public class InstructorDTOMapper implements Function<InstructorProfile, Instruct
                 instructor.getUser().getLastname(),
                 instructor.getUser().getEmail(),
                 instructor.getEmployeeNumber(),
-                instructor.getDepartment() != null
-                        ? instructor.getDepartment().getDepartmentName()
-                        : null
+                instructor.getDepartment() != null ?instructor.getDepartment().getId() : null,
+               instructor.getDepartment() != null
+                       ? instructor.getDepartment().getDepartmentName()
+                       : null
                 );
     }
 }
