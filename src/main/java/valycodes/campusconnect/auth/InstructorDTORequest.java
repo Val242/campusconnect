@@ -2,9 +2,10 @@ package valycodes.campusconnect.auth;
 
 public record InstructorDTORequest(
         Integer id,
-        String firstName,
-        String lastName,
+        String firstname,
+        String lastname,
         String email,
-        Integer employeeNumber
-       // String departmentName
+        Integer employeeNumber,
+        Integer departmentId,
+       String department
 ){}

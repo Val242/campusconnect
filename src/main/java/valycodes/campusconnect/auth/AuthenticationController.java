@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import valycodes.campusconnect.model.Role;
+import valycodes.campusconnect.model.User;
 import valycodes.campusconnect.response.ApiResponse;
 
 @RestController
@@ -26,6 +27,8 @@ public class AuthenticationController {
 
         AuthenticationResponse authResponse = service.register(request);
 
+
+      //  AuthenticationDTOResponse authDTO = new AuthenticationResponseDTOMapper().apply(authResponse.getUser());
         return ResponseEntity.ok(new ApiResponse<>(
                 200,
                 "User registered and authenticated successfully",
