@@ -5,6 +5,6 @@ public record InstructorDTORequest(
         String firstName,
         String lastName,
         String email,
-        Integer employeeNumber,
-        String departmentName
+        Integer employeeNumber
+       // String departmentName
 ){}
