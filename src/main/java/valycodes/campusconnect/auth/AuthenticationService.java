@@ -53,8 +53,8 @@ public class AuthenticationService {
             if (studentDTO == null) {
                 throw new IllegalStateException("Student data is required for STUDENT role");
             }
-//           Department department = departmentRepository.findDepartmentById(registrationWrapper.studentDTORequest.departmentId())
-//                   .orElseThrow(()-> new IllegalStateException("Department not Found"));
+          Department department = departmentRepository.findDepartmentById(studentDTO.departmentId())
+                  .orElseThrow(()-> new IllegalStateException("Department not Found"));
          StudentProfile student = new StudentProfile();
             student.setUser(user);
             student.setFirstname(user.getFirstname());
@@ -63,14 +63,16 @@ public class AuthenticationService {
             student.setGender(user.getGender());
             student.setMatriculationNumber(student.getMatriculationNumber());
             student.setLevel(student.getLevel());
-//            student.setDepartment(department);
-//            student.getDepartment().getDepartmentName();
+           student.setDepartment(department);
+           student.getDepartment().getDepartmentName();
             studentRepository.save(student);
         } else if(user.getRole() == Role.INSTRUCTOR) {
             InstructorDTORequest instructorDTO = registrationWrapper.instructorDTORequest();
             if (instructorDTO == null) {
                 throw new IllegalStateException("Instructor data is required for INSTRUCTOR role");
             }
+            Department department = departmentRepository.findDepartmentById(instructorDTO.departmentId())
+                    .orElseThrow(()-> new IllegalStateException("Department not Found"));
             InstructorProfile instructor = new InstructorProfile();
             instructor.setUser(user);
            instructor.setFirstname(user.getFirstname());
@@ -78,13 +80,15 @@ public class AuthenticationService {
            instructor.setEmail(user.getEmail());
            instructor.setGender(user.getGender());
            instructor.setEmployeeNumber(instructor.getEmployeeNumber());
-//           instructor.getDepartment().getId();
-//           instructor.getDepartment().getDepartmentName();
+         instructor.setDepartment(department);
+         instructor.getDepartment().getDepartmentName();
             instructorRepository.save(instructor);
         }
 
         var jwtToken = jwtService.generateToken(user);
         System.out.println("JWT GENERATED" + jwtToken);
+
+
 
         return AuthenticationResponse.builder()
                 .token(jwtToken)

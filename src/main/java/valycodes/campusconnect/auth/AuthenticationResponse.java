@@ -1,6 +1,7 @@
 package valycodes.campusconnect.auth;
 
 import valycodes.campusconnect.model.Role;
+import valycodes.campusconnect.model.User;
 
 import java.util.Objects;
 
@@ -9,6 +10,7 @@ public class AuthenticationResponse {
     // Setter
     // Getter
     private String token;
+    private User user;
 
     // Constructor that actually sets the token
     public AuthenticationResponse(String token) {
@@ -29,6 +31,10 @@ public class AuthenticationResponse {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public User getUser() {
+        return this.user;
     }
 
     // Builder inner class
