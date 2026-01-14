@@ -28,17 +28,23 @@ public class CourseService {
         this.courseDTOMapper = courseDTOMapper;
     }
 
+    public List<CourseDTORequest> getAllCourses(){
+        return courseRepository.findAll()
+                .stream()
+                .map(courseDTOMapper)
+                .toList();
+    }
 
     @Transactional(readOnly = true)
     public CourseDTORequest getCourse(Integer courseId) {
         Course course = courseRepository.findCourseById(courseId)
                 .orElseThrow(()->
-                        new IllegalStateException("Faculty not found"));
+                        new IllegalStateException("Course not found"));
         return courseDTOMapper.apply(course);
     }
     public CourseDTORequest addNewCourse(CourseDTORequest requestDTO) {
        Department department = departmentRepository.findDepartmentById(requestDTO.departmentId())
-                .orElseThrow(()-> new IllegalStateException("Faculty not Found"));
+                .orElseThrow(()-> new IllegalStateException("Department not Found"));
         Course course = new Course();
         course.setCourseCode(requestDTO.courseCode());
         course.setTitle(requestDTO.title());

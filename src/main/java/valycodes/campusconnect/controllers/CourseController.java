@@ -12,7 +12,7 @@ import valycodes.campusconnect.response.ApiResponse;
 import valycodes.campusconnect.service.CourseService;
 
 import java.util.List;
-@PreAuthorize("hasRole('ADMIN')")
+
 @RestController
 @RequestMapping("/api/v1/course")
 
@@ -31,6 +31,10 @@ public class CourseController {
     ){
         CourseDTORequest courseDTO = courseService.getCourse(id);
         return  ResponseEntity.ok(courseDTO);
+    }
+    @GetMapping
+    public ResponseEntity<List<CourseDTORequest>> getAllCourses(){
+        return ResponseEntity.ok(courseService.getAllCourses());
     }
 
     // Add a new food
