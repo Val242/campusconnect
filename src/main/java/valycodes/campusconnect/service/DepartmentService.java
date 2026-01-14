@@ -11,6 +11,8 @@ import valycodes.campusconnect.model.Faculty;
 import valycodes.campusconnect.repository.DepartmentRepository;
 import valycodes.campusconnect.repository.FacultyRepository;
 
+import java.util.List;
+
 @Service
 @Transactional
 public class DepartmentService {
@@ -27,6 +29,12 @@ public class DepartmentService {
         this.departmentRepository = departmentRepository;
         this.facultyRepository = facultyRepository;
         this.departmentDTOMapper = mapper;
+    }
+    public List<DepartmentDTORequest> getAllDepartments(){
+      return   departmentRepository.findAll()
+                .stream()
+                .map(departmentDTOMapper)
+                .toList();
     }
     @Transactional(readOnly = true)
     public DepartmentDTORequest getDepartment(Integer departmentId) {

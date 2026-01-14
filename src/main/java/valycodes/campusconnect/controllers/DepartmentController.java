@@ -10,7 +10,7 @@ import valycodes.campusconnect.response.ApiResponse;
 import valycodes.campusconnect.service.DepartmentService;
 
 import java.util.List;
-@PreAuthorize("hasRole('ADMIN')")
+
 @RestController
 @RequestMapping("/api/v1/department")
 
@@ -22,13 +22,17 @@ public class DepartmentController {
         this.departmentService = departmentService;
     }
 
-    // Get all foods
+    // Get one department
     @GetMapping("/{id}")
     public  ResponseEntity<DepartmentDTORequest> getDepartment(
             @PathVariable("id") Integer id
     ){
         DepartmentDTORequest departmentDTO = departmentService.getDepartment(id);
         return  ResponseEntity.ok(departmentDTO);
+    }
+    @GetMapping
+    public  ResponseEntity<List<DepartmentDTORequest>> getAllDepartments(){
+        return ResponseEntity.ok(departmentService.getAllDepartments());
     }
 
     // Add a new food
