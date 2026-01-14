@@ -8,6 +8,7 @@ import valycodes.campusconnect.mapper.FacultyDTOMapper;
 import valycodes.campusconnect.model.Faculty;
 import valycodes.campusconnect.repository.FacultyRepository;
 
+import java.util.List;
 import java.util.Objects;
 
 @Service
@@ -22,7 +23,15 @@ public class FacultyService {
         this.facultyDTOMapper = facultyDTOMapper;
     }
 
-    // Get all faculty items
+
+    public List<FacultyDTORequest> getAllFaculties(){
+
+        return  facultyRepository.findAll()
+                .stream()
+                .map(facultyDTOMapper)
+                .toList();
+    }
+    // Get one faculty
     @Transactional(readOnly = true)
     public FacultyDTORequest getFaculty(Integer facultyId) {
         Faculty faculty = facultyRepository.findFacultyById(facultyId)

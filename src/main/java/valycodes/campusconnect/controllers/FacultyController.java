@@ -5,10 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import valycodes.campusconnect.dto.FacultyDTORequest;
+import valycodes.campusconnect.model.Faculty;
 import valycodes.campusconnect.response.ApiResponse;
 import valycodes.campusconnect.service.FacultyService;
 
-@PreAuthorize("hasRole('ADMIN')")
+import java.util.List;
+
+
 @RestController
 @RequestMapping("/api/v1/faculty")
 public class FacultyController {
@@ -26,10 +29,10 @@ public class FacultyController {
         FacultyDTORequest facultyDTO = facultyService.getFaculty(id);
         return  ResponseEntity.ok(facultyDTO);
     }
-//    @GetMapping
-//    public List<FacultyDTO> getFaculty() {
-//        return (List<Faculty>) facultyService.getFaculty();
-//    }
+   @GetMapping
+   public ResponseEntity<List<FacultyDTORequest>> getAllFaculties() {
+       return ResponseEntity.ok(facultyService.getAllFaculties());
+   }
 
     // Add a new food
     @PreAuthorize("hasRole('ADMIN')")
@@ -41,6 +44,7 @@ public class FacultyController {
     }
 
     // Delete faculty by ID
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "{facultyId}")
     public void deleteFaculty(@PathVariable("facultyId") Integer facultyId) {
         facultyService.deleteFaculty(facultyId);
