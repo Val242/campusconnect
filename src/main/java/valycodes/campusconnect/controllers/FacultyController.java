@@ -28,7 +28,7 @@ public class FacultyController {
     }
 //    @GetMapping
 //    public List<FacultyDTO> getFaculty() {
-//        return (List<Faculty>) facultyService.getFaculty();
+// /       return (List<Faculty>) facultyService.getFaculty();
 //    }
 
     // Add a new food
