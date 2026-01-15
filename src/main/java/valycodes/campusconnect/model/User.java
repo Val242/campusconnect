@@ -39,9 +39,17 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
+    @JoinColumn(
+            name = "instructor_profile_id",
+            unique = true
+    )
     private InstructorProfile instructorProfile;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
+    @JoinColumn(
+            name = "student_profile_id",
+            unique = true
+    )
     private StudentProfile studentProfile;
 
     @Enumerated(EnumType.STRING)

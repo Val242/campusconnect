@@ -20,6 +20,7 @@ public class AuthenticationController {
     }
 
 
+
     @PostMapping("/register")
     public ResponseEntity<ApiResponse<AuthenticationResponse>> register(
             @RequestBody RegistrationWrapper request

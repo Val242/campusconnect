@@ -48,43 +48,51 @@ public class AuthenticationService {
         user.setRole(reg.role());
         user.setGender(reg.gender());
         user.setPassword(passwordEncoder.encode(reg.password()));
-
-        repository.save(user);
+    repository.save(user);
         if(user.getRole() == Role.STUDENT) {
+
             StudentDTORequest studentDTO = registrationWrapper.studentDTORequest();
             if (studentDTO == null) {
                 throw new IllegalStateException("Student data is required for STUDENT role");
             }
+
           Department department = departmentRepository.findDepartmentById(studentDTO.departmentId())
                   .orElseThrow(()-> new IllegalStateException("Department not Found"));
+
          StudentProfile student = new StudentProfile();
-            student.setUser(user);
             student.setFirstname(user.getFirstname());
             student.setLastname(user.getLastname());
             student.setEmail(user.getEmail());
             student.setGender(user.getGender());
-            student.setMatriculationNumber(student.getMatriculationNumber());
-            student.setLevel(student.getLevel());
-           student.setDepartment(department);
-           student.getDepartment().getDepartmentName();
-            studentRepository.save(student);
+            student.setMatriculationNumber(studentDTO.matriculationNumber());
+            student.setLevel(studentDTO.level());
+            student.setDepartment(department);
+
+            student.setUser(user);
+            user.setStudentProfile(student);
+            repository.save(user);
         } else if(user.getRole() == Role.INSTRUCTOR) {
+
             InstructorDTORequest instructorDTO = registrationWrapper.instructorDTORequest();
             if (instructorDTO == null) {
                 throw new IllegalStateException("Instructor data is required for INSTRUCTOR role");
             }
+
             Department department = departmentRepository.findDepartmentById(instructorDTO.departmentId())
                     .orElseThrow(()-> new IllegalStateException("Department not Found"));
             InstructorProfile instructor = new InstructorProfile();
-            instructor.setUser(user);
+
            instructor.setFirstname(user.getFirstname());
            instructor.setLastname(user.getLastname());
            instructor.setEmail(user.getEmail());
            instructor.setGender(user.getGender());
            instructor.setEmployeeNumber(instructor.getEmployeeNumber());
          instructor.setDepartment(department);
-         instructor.getDepartment().getDepartmentName();
-            instructorRepository.save(instructor);
+
+
+            instructor.setUser(user);
+            user.setInstructorProfile(instructor);
+            repository.save(user);
         }
 
         var jwtToken = jwtService.generateToken(user);
