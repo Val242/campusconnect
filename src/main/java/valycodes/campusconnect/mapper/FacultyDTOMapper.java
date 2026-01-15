@@ -13,7 +13,8 @@ public class FacultyDTOMapper implements Function<Faculty, FacultyDTORequest> {
     public FacultyDTORequest apply(Faculty faculty) {
         return new FacultyDTORequest(
                 faculty.getFacultyName(),
-                faculty.getFacultyAbbrev()
+                faculty.getFacultyAbbrev(),
+                faculty.getDean()
 
         );
     }
