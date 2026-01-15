@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import valycodes.campusconnect.dto.FacultyDTORequest;
 import valycodes.campusconnect.mapper.FacultyDTOMapper;
 import valycodes.campusconnect.model.Faculty;
+import valycodes.campusconnect.model.InstructorProfile;
 import valycodes.campusconnect.repository.FacultyRepository;
+import valycodes.campusconnect.repository.UserRepository;
 
 import java.util.List;
 import java.util.Objects;
@@ -15,11 +17,13 @@ import java.util.Objects;
 @Transactional
 public class FacultyService {
     private final FacultyRepository facultyRepository;
+    private final UserRepository repository;
     private final FacultyDTOMapper facultyDTOMapper;
 
     @Autowired
-    public FacultyService(FacultyRepository facultyRepository, FacultyDTOMapper facultyDTOMapper) {
+    public FacultyService(FacultyRepository facultyRepository, UserRepository repository, FacultyDTOMapper facultyDTOMapper) {
         this.facultyRepository = facultyRepository;
+        this.repository = repository;
         this.facultyDTOMapper = facultyDTOMapper;
     }
 
@@ -48,6 +52,7 @@ public class FacultyService {
         Faculty savedFaculty = facultyRepository.save(faculty);
         return facultyDTOMapper.apply(savedFaculty);
     }
+
 
     // Delete a faculty item by ID
     public void deleteFaculty(Integer facultyId) {

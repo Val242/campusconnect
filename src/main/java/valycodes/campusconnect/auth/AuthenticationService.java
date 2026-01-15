@@ -22,6 +22,8 @@ public class AuthenticationService {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
+
+
     public AuthenticationService(UserRepository repository, StudentRepository studentRepository, InstructorRepository instructorRepository, DepartmentRepository departmentRepository, PasswordEncoder passwordEncoder, JwtService jwtService, AuthenticationManager authenticationManager) {
         this.repository = repository;
         this.studentRepository = studentRepository;
@@ -94,6 +96,7 @@ public class AuthenticationService {
                 .token(jwtToken)
                 .build();
     }
+
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
 
