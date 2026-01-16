@@ -59,4 +59,15 @@ public class FacultyController {
         facultyService.updateFaculty(facultyId,
                 name);
     }
+
+    //Assign a new dean
+    @PutMapping(path = "{facultyId}/assign-dean")
+    public ResponseEntity<ApiResponse<FacultyDTORequest>> assignDean(
+            @PathVariable("facultyId") Integer facultyId,
+            @RequestParam(required = false) Integer instructorId
+    ){
+        facultyService.assignDean(facultyId,instructorId);
+        return ResponseEntity.ok(new ApiResponse<>(200,"Dean assigned Successfully", null));
+    }
+
 }

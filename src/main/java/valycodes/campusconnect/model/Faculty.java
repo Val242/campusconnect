@@ -25,7 +25,7 @@ public class Faculty {
             length = 10
     )
     private String facultyAbbrev;
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "dean_id",
             unique = true
