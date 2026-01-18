@@ -44,6 +44,15 @@ public class DepartmentController {
         return ResponseEntity.ok(new ApiResponse<>(200,"Department Added Successfully", request));
     }
 
+    @PutMapping(path = "{departmentId}/assign-hod")
+    public ResponseEntity<ApiResponse<DepartmentDTORequest>> assignDean(
+            @PathVariable("departmentId") Integer departmentId,
+            @RequestParam(required = false) Integer instructorId
+    ){
+        departmentService.assignHeadOfDepartment(departmentId,instructorId);
+        return ResponseEntity.ok(new ApiResponse<>(200,"HOD assigned Successfully", null));
+    }
+
     // Delete department by ID
 //    @DeleteMapping(path = "{departmentId}")
 //    public void deleteDepartment(@PathVariable("departmentId") Integer departmentId) {

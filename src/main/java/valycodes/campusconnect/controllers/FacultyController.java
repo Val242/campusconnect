@@ -23,15 +23,15 @@ public class FacultyController {
     }
 
     @GetMapping("/{id}")
-    public  ResponseEntity<FacultyDTORequest> getFaculty(
+    public  ResponseEntity<ApiResponse<FacultyDTORequest>> getFaculty(
             @PathVariable("id") Integer id
     ){
         FacultyDTORequest facultyDTO = facultyService.getFaculty(id);
-        return  ResponseEntity.ok(facultyDTO);
+        return  ResponseEntity.ok(new ApiResponse<>(200,"success",facultyDTO));
     }
    @GetMapping
-   public ResponseEntity<List<FacultyDTORequest>> getAllFaculties() {
-       return ResponseEntity.ok(facultyService.getAllFaculties());
+   public ResponseEntity<ApiResponse<List<FacultyDTORequest>>> getAllFaculties() {
+       return ResponseEntity.ok(new ApiResponse<>(200,"All faculties",facultyService.getAllFaculties()));
    }
 
     // Add a new food
