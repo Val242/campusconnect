@@ -102,7 +102,7 @@ public class FacultyService {
 
         }
 
-
+        facultyDTOMapper.apply(faculty);
     }
 }
 
