@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Service
+@Transactional
 public class CourseService {
     private final CourseRepository courseRepository;
     private final DepartmentRepository departmentRepository;
@@ -60,26 +61,28 @@ public class CourseService {
         Course savedCourse = courseRepository.save(course);
         return courseDTOMapper.apply(savedCourse);
     }
-    public void courseInstructor(Integer courseId, Integer instructorId){
+
+    public void assignInstructorToCourse(Integer courseId, Integer instructorId) {
+
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalStateException(
-                        "Instructor with ID " + courseId + " does not exist"
+                        "Course with ID " + courseId + " does not exist"
                 ));
+
         InstructorProfile instructor = instructorRepository.findById(instructorId)
                 .orElseThrow(() -> new IllegalStateException(
-                        "Instructor with ID " + courseId + " does not exist"
+                        "Instructor with ID " + instructorId + " does not exist"
                 ));
-        if (course.getInstructor() == null || !course.getInstructor().getId().equals(courseId))
-        //Assign the new dean only if a dean doesn’t exist yet, or the dean is different from the current one.
-        {
-            System.out.println("Assigning dean...");
+
+        // Assign instructor only if not already assigned or different
+        if (course.getInstructor() == null ||
+                !course.getInstructor().getId().equals(instructorId)) {
+
+            System.out.println("Assigning instructor...");
             course.setInstructor(instructor);
-            courseRepository.saveAndFlush(course);
-//            System.out.println("The new dean of the course " + course.getCourseName() + " is " + course.getFirstname());
-
+            courseRepository.save(course);
         }
-
-        courseDTOMapper.apply(course);
     }
+
 
 }
