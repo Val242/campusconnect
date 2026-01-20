@@ -45,4 +45,16 @@ public class CourseController {
         System.out.println("Course added");
         return ResponseEntity.ok(new ApiResponse<>(200,"Course Added Successfully", request));
     }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PutMapping("/{courseId}/assign-instructor")
+    public ResponseEntity<ApiResponse<Void>> assignInstructor(
+            @PathVariable Integer courseId,
+            @RequestParam Integer instructorId
+    ) {
+        courseService.assignInstructorToCourse(courseId, instructorId);
+        return ResponseEntity.ok(
+                new ApiResponse<>(200, "Instructor assigned successfully", null)
+        );
+    }
+
 }
