@@ -44,10 +44,12 @@ public class FacultyController {
     }
 
     // Delete faculty by ID
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping(path = "{facultyId}")
-    public void deleteFaculty(@PathVariable("facultyId") Integer facultyId) {
+    public ResponseEntity<ApiResponse<FacultyDTORequest>> deleteFaculty(@PathVariable("facultyId") Integer facultyId) {
         facultyService.deleteFaculty(facultyId);
+        return ResponseEntity.ok(new ApiResponse<>(200,"Faculty deleted Successfully", null));
     }
 
     // Update faculty by ID
