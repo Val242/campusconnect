@@ -13,7 +13,7 @@ public class InstructorDTOMapper implements Function<InstructorProfile, Instruct
     public InstructorDTORequest apply(InstructorProfile instructor) {
 
         return new InstructorDTORequest(
-                instructor.getId(),
+                instructor.getId(),//okk
                 instructor.getUser().getFirstname(),
                 instructor.getUser().getLastname(),
                 instructor.getUser().getEmail(),
