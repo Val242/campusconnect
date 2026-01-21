@@ -44,6 +44,12 @@ public class DepartmentController {
         return ResponseEntity.ok(new ApiResponse<>(200,"Department Added Successfully", request));
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping(path = "{departmentId}")
+    public ResponseEntity<ApiResponse<DepartmentDTORequest>> deleteDepartment(@PathVariable("departmentId") Integer departmentId) {
+        departmentService.deleteDepartment(departmentId);
+        return ResponseEntity.ok(new ApiResponse<>(200,"Department deleted Successfully", null));
+    }
     @PutMapping(path = "{departmentId}/assign-hod")
     public ResponseEntity<ApiResponse<DepartmentDTORequest>> assignDean(
             @PathVariable("departmentId") Integer departmentId,
@@ -53,19 +59,5 @@ public class DepartmentController {
         return ResponseEntity.ok(new ApiResponse<>(200,"HOD assigned Successfully", null));
     }
 
-    // Delete department by ID
-//    @DeleteMapping(path = "{departmentId}")
-//    public void deleteDepartment(@PathVariable("departmentId") Integer departmentId) {
-//        departmentService.deleteDepartment(departmentId);
-//    }
-//
-//    // Update department by ID
-//    @PutMapping(path = "{departmentId}")
-//    public void updateDepartment(
-//            @PathVariable("departmentId") Integer departmentId,
-//            @RequestParam(required = false) String name
-//    ) {
-//        departmentService.updateDepartment(departmentId,
-//                name);
-//    }
+
 }

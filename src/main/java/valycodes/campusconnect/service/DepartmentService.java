@@ -58,6 +58,14 @@ public class DepartmentService {
         departmentDTOMapper.apply(savedDepartment);
     }
 
+    public void deleteDepartment(Integer departmentId){
+        boolean exists = departmentRepository.existsById(departmentId);
+        if (!exists) {
+            throw new IllegalStateException("Faculty with ID " + departmentId + " does not exist");
+        }
+        departmentRepository.deleteById(departmentId);
+
+    }
     public void assignHeadOfDepartment(Integer departmentId, Integer instructorId){
        Department department = departmentRepository.findById(departmentId)
                 .orElseThrow(() -> new IllegalStateException(
