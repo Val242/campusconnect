@@ -2,7 +2,7 @@ CampusConnect – University Management Backend System.
 
 CampusConnect is a backend application that implements a real-world university management system. It models core academic and administrative operations found in higher education institutions, with a strong focus on correctness, data integrity, and clean backend architecture.
 
-Overview
+Overview.
 
 The system manages users, authentication, and academic structures such as faculties, departments, courses, students, and instructors. It is designed to reflect real institutional workflows while enforcing proper entity relationships, role-based access control, and transactional consistency.
 
